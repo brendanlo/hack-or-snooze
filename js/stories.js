@@ -50,3 +50,23 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+
+async function getStoryDataAndDisplay(evt) {
+  evt.preventDefault();
+
+  const storyFormVals = {
+    title: $("#story-title").val(),
+    author: $("#story-author").val(),
+    url: $("#story-url").val()
+  };
+
+  // let link = new URL(storyFormVals.url);
+  // storyFormVals.url = (link.protocol) ? storyFormVals.url : `http://${storyFormVals.url}`;
+
+  storyList.stories.unshift(await storyList.addStory(currentUser, storyFormVals));
+  putStoriesOnPage();
+  $submitStoryForm.hide();
+}
+
+$submitStoryBtn.on("click", getStoryDataAndDisplay);

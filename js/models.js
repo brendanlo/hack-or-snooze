@@ -84,7 +84,7 @@ class StoryList {
 
     const story = storyResponse.data.story;
     console.log("story: ", story);
-    return new Story({  //async function always returns a promise object
+    return new Story({
       storyId: story.storyId,
       title: story.title,
       author: story.author,
