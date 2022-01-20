@@ -74,23 +74,24 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
-    const storyParams = {
+
+    const storyResponse = await axios.post(`${BASE_URL}/stories`, {
       token: user.loginToken,
       story: { title: newStory.title, author: newStory.author, url: newStory.url }
-    };
-    const storyResponse = await axios.post(`${BASE_URL}/stories`, {
-      params: storyParams
     });
-    console.log('storyParams: ', storyParams);
+
     console.log("storyResponse: ", storyResponse);
 
     const story = storyResponse.data.story;
-    return new Story(story.storyId,
-      newStory.title,
-      newStory.author,
-      newStory.url,
-      user.username,
-      story.createdAt);
+    console.log("story: ", story);
+    return new Story({  //async function always returns a promise object
+      storyId: story.storyId,
+      title: story.title,
+      author: story.author,
+      url: story.url,
+      username: story.username,
+      createdAt: story.createdAt
+    });
   }
 }
 
