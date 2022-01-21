@@ -218,6 +218,11 @@ class User {
     }
   }
 
+  /** takes in a story, 
+   * adds story to currentUser favorites array, 
+   * adds story to database User {favoritesArray} 
+   * */
+
   async addFavorite(story) {
     this.favorites.push(story);
 
@@ -229,9 +234,20 @@ class User {
     console.log("response", response);
   }
 
+
   async removeFavorite(removeStory) {
     this.favorites = this.favorites.filter((story) => {
       return (story.storyId !== removeStory.storyId);
     });
+
+    let response = await axios.delete(
+      `${BASE_URL}/users/${this.username}/favorites/${removeStory.storyId}`,
+      {
+        data: {
+          token: this.loginToken
+        }
+      });
+
+    console.log("response", response);
   }
 }
