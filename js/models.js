@@ -229,7 +229,7 @@ class User {
     console.log("storyId = ", story.storyId);
 
 
-
+    //add Story instance to database
     const response = await axios.post(
       `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       {
@@ -246,11 +246,13 @@ class User {
 
   async removeFavorite(removeStory) {
     console.log("in removeFavorite, this is removeStory: ", removeStory);
+
     // returns currentUser favorites array without removeStory
     this.favorites = this.favorites.filter((story) => {
       return (story.storyId !== removeStory.storyId);
     });
 
+    //delete Story instance from database
     const response = await axios.delete(
       `${BASE_URL}/users/${this.username}/favorites/${removeStory.storyId}`,
       {

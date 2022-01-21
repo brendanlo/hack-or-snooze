@@ -44,8 +44,8 @@ function generateStoryMarkup(story) {
       </li>
     `);
 }
-
-/** Gets list of stories from server, generates their HTML, and puts on page. */
+/**NOTE: starter code altered here to include parameters, added args to function calls */
+/** Takes an array of Story instances, generates their HTML, and puts on page. */
 
 function putStoriesOnPage(stories) {
   console.debug("putStoriesOnPage");
@@ -134,20 +134,10 @@ async function removeFavoriteStar(evt) {
   const storyId = $star.closest("li").attr("id");
   console.log("storyId: ", storyId);
 
-  // finds Story instance from storyList with star's storyId
-  // const unfavoriteStoryArr = storyList.stories.filter((story) => {
-  //   console.log("story.storyId: ", story.storyId);
-
-  //   return (story.storyId === storyId);
-  // });
-
   const response = await axios.get(`${BASE_URL}/stories/${storyId}`);
-  console.log("response:", response);
+  const story = response.data.story;
 
-
-  // console.log("favoriteStory: ", unfavoriteStoryArr);
-  await currentUser.removeFavorite(response.data);
-  // await currentUser.removeFavorite(unfavoriteStoryArr[0]);
+  await currentUser.removeFavorite(story);
 
   $star.addClass("far");  //turns on hollow star
   $star.removeClass("fas") //turns off solid star
