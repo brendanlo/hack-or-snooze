@@ -12,6 +12,22 @@ async function getAndShowStoriesOnStart() {
   putStoriesOnPage(storyList.stories);
 }
 
+function showStars(story) {
+  if (currentUser) {
+    //find out whether Story instance is also in currentUser [favorites]
+    const storyInFav = currentUser.favorites.filter((favStory) => {
+      return favStory.storyId === story.storyId
+    });
+    console.log('storyInFav= ', storyInFav);
+
+    const favoriteStatus = (storyInFav.length === 0) ? "far" : "fas";
+    console.log('story.title: ', story.title, ' favoriteStatus: ', favoriteStatus);
+    return `<i class="${favoriteStatus} fa-star"></i>`;
+  } else {
+    return "";
+  }
+}
+
 /**
  * A render method to render HTML for an individual Story instance
  * - story: an instance of Story
@@ -25,17 +41,19 @@ function generateStoryMarkup(story) {
 
   //TODO: make sure we are logged in before addin the star feature, can make a helper function
   //O(n) operation to edit star html if story in currentUser's favorites
-  const storyInFav = currentUser.favorites.filter((favStory) => {
-    return favStory.storyId === story.storyId
-  });
-  console.log('storyInFav= ', storyInFav);
+  // if(currentUser) {
+  //   const storyInFav = currentUser.favorites.filter((favStory) => {
+  //     return favStory.storyId === story.storyId
+  //   });
+  //   console.log('storyInFav= ', storyInFav);
 
-  const favoriteStatus = (storyInFav.length === 0) ? "far" : "fas";
-  console.log('story.title: ', story.title, ' favoriteStatus: ', favoriteStatus);
+  //   const favoriteStatus = (storyInFav.length === 0) ? "far" : "fas";
+  //   console.log('story.title: ', story.title, ' favoriteStatus: ', favoriteStatus);
+  // }
 
   return $(`
       <li id="${story.storyId}">
-        <i class="${favoriteStatus} fa-star"></i>
+        ${showStars(story)}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>

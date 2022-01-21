@@ -21,6 +21,7 @@ function navFavoritesClick(evt) {
   hidePageComponents();
   $loginForm.show();
   $signupForm.show();
+  $navSubmit.hide();
 }
 
 $navLogin.on("click", navFavoritesClick);
@@ -32,6 +33,7 @@ function updateNavOnLogin() {
   $(".main-nav-links").show();
   $navLogin.hide();
   $navLogOut.show();
+  $(".nav-left").show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
 
@@ -46,10 +48,10 @@ $navSubmit.on("click", navSubmitClick);
 
 /** Show favorites page when clicking on "favorites" */
 
-function navFavoritesClick(evt) {
-  console.debug("navFavoritesClick", evt);
-  hidePageComponents();
-  $navFavorites.show();
-}
+// function navFavoritesClick(evt) {
+//   console.debug("navFavoritesClick", evt);
+//   hidePageComponents();
+//   $navFavorites.show();
+// }
 
-$navLogin.on("click", navFavoritesClick);
+// $navLogin.on("click", navFavoritesClick);
