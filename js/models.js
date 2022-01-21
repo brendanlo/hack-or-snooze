@@ -218,11 +218,18 @@ class User {
     }
   }
 
-  favoriteStory(story) {
+  async addFavorite(story) {
     this.favorites.push(story);
+
+    let response = await axios.post(
+      `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      {
+        token: this.loginToken
+      });
+    console.log("response", response);
   }
 
-  unfavoriteStory(removeStory) {
+  async removeFavorite(removeStory) {
     this.favorites = this.favorites.filter((story) => {
       return (story.storyId !== removeStory.storyId);
     });
