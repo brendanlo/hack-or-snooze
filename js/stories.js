@@ -76,10 +76,6 @@ async function createStoryAndDisplay(evt) {
     url: $("#story-url").val()
   };
 
-  // NOTE we are working on URL form validation if time
-  // let link = new URL(storyFormVals.url);
-  // storyFormVals.url = (link.protocol) ? storyFormVals.url : `http://${storyFormVals.url}`;
-
   const newStory = await storyList.addStory(currentUser, storyFormVals);
   $allStoriesList.prepend(generateStoryMarkup(newStory));
 
@@ -110,15 +106,14 @@ async function addFavoriteStar(evt) {
   const $star = $(evt.target);
   const starStoryId = $star.closest("li").attr("id");
 
-  //TODO: try .find() instead of .filter()
   // finds Story instance from storyList with star's storyId 
-  const favoriteStoryArr = storyList.stories.filter((story) => {
+  const favoriteStory = storyList.stories.find((story) => {
     return (story.storyId === starStoryId);
   });
 
-  console.log("favoriteStory: ", favoriteStoryArr);
+  console.log("favoriteStory: ", favoriteStory);
 
-  await currentUser.addFavorite(favoriteStoryArr[0]);
+  await currentUser.addFavorite(favoriteStory);
 
   $star.addClass("fas");  //turns on solid star
   $star.removeClass("far") //turns off hollow star
@@ -137,9 +132,7 @@ async function removeFavoriteStar(evt) {
   console.log("storyId: ", storyId);
 
   //TODO: avoid using logic in UI function; make static getStory() in logic file
-  const response = await axios.get(`${BASE_URL}/stories/${storyId}`);
-  const story = response.data.story;
-
+  const story = StoryList.getStory(storyId);
   await currentUser.removeFavorite(story);
 
   $star.addClass("far");  //turns on hollow star

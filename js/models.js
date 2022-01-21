@@ -100,6 +100,23 @@ class StoryList {
 
     return newStory;
   }
+
+  /** this will take an input of storyId and return either a story object
+   * or undefined if no story with that storyId exists
+   */
+
+  static async getStory(storyId) {
+    try {
+      const response = await axios.get(`${BASE_URL}/stories/${storyId}`);
+      return response.data.story;
+      //new Story ({...response.data})
+    }
+    catch (error) {
+      console.error(error)
+      return undefined;
+    }
+
+  }
 }
 
 
@@ -247,7 +264,7 @@ class User {
   /**TODO: try AJAX call before changing front-end upon successful backend deletion */
   /** TODO: refer to "database" as making an update to API */
   async removeFavorite(story) {
-    console.log("in removeFavorite, this is removeStory: ", removeStory);
+    console.log("in removeFavorite, this is story: ", story);
 
     // returns currentUser favorites array without removeStory
     this.favorites = this.favorites.filter((s) => {
@@ -256,7 +273,7 @@ class User {
 
     //delete Story instance from database
     const response = await axios.delete(
-      `${BASE_URL}/users/${this.username}/favorites/${removeStory.storyId}`,
+      `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       {
         data: {
           token: this.loginToken
