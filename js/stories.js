@@ -55,8 +55,8 @@ function putStoriesOnPage() {
  * adds that story instance to the storyList array, then updates the page to 
  * include the new story. redhides the submit story form
  */
-// TODO rename function createStoryAndDisplay...?
-async function getStoryDataAndDisplay(evt) {
+
+async function createStoryAndDisplay(evt) {
   evt.preventDefault();
 
   const storyFormVals = {
@@ -70,11 +70,9 @@ async function getStoryDataAndDisplay(evt) {
   // storyFormVals.url = (link.protocol) ? storyFormVals.url : `http://${storyFormVals.url}`;
 
   const newStory = await storyList.addStory(currentUser, storyFormVals);
-  storyList.stories.unshift(newStory);
+  $allStoriesList.prepend(generateStoryMarkup(newStory));
 
-  // TODO adjust functionality to populate 1 story in dom directly
-  putStoriesOnPage();
   $submitStoryForm.hide();
 }
 
-$submitStoryBtn.on("click", getStoryDataAndDisplay);
+$submitStoryBtn.on("click", createStoryAndDisplay);

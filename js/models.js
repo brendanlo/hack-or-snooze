@@ -22,11 +22,9 @@ class Story {
   }
 
   /** Parses hostname out of URL and returns it. */
-  //TODO do this
 
   getHostName() {
-    // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    return new URL(this.url).hostname;
   }
 }
 
@@ -74,18 +72,22 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  async addStory(user, newStory) {
-    // TODO key:value pairs on each line. add new story to the story list
+  async addStory(user, storyData) {
+
     const storyResponse = await axios.post(`${BASE_URL}/stories`, {
       token: user.loginToken,
-      story: { title: newStory.title, author: newStory.author, url: newStory.url }
+      story: {
+        title: storyData.title,
+        author: storyData.author,
+        url: storyData.url
+      }
     });
 
     console.log("storyResponse: ", storyResponse);
     const story = storyResponse.data.story;
     console.log("story: ", story);
 
-    return new Story({
+    const newStory = new Story({
       storyId: story.storyId,
       title: story.title,
       author: story.author,
@@ -94,6 +96,9 @@ class StoryList {
       createdAt: story.createdAt
     });
 
+    storyList.stories.unshift(newStory);
+
+    return newStory;
   }
 }
 
@@ -211,5 +216,15 @@ class User {
       console.error("loginViaStoredCredentials failed", err);
       return null;
     }
+  }
+
+  favoriteStory(story) {
+    this.favorites.push(story);
+  }
+
+  unfavoriteStory(removeStory) {
+    this.favorites = this.favorites.filter((story) => {
+      return (story.storyId !== removeStory.storyId);
+    });
   }
 }
