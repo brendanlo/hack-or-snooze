@@ -22,6 +22,7 @@ class Story {
   }
 
   /** Parses hostname out of URL and returns it. */
+  //TODO do this
 
   getHostName() {
     // UNIMPLEMENTED: complete this function!
@@ -74,7 +75,7 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
-
+    // TODO key:value pairs on each line. add new story to the story list
     const storyResponse = await axios.post(`${BASE_URL}/stories`, {
       token: user.loginToken,
       story: { title: newStory.title, author: newStory.author, url: newStory.url }

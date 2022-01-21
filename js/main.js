@@ -29,6 +29,7 @@ function hidePageComponents() {
     $allStoriesList,
     $loginForm,
     $signupForm,
+    //TODO hide submit form? check where this function is being called - is there a case where this will be called?
   ];
   components.forEach(c => c.hide());
 }
