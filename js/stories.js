@@ -23,9 +23,17 @@ function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
+  const storyInFav = currentUser.favorites.find(favStory => {
+    favStory.storyId === story.storyId
+  });
+  console.log('storyInFav= ', storyInFav);
+
+  const favoriteStatus = (storyInFav) ? "fas" : "far";
+  console.log('story.title: ', story.title, ' favoriteStatus: ', favoriteStatus);
+
   return $(`
       <li id="${story.storyId}">
-        <i class="far fa-star"></i>
+        <i class="${favoriteStatus} fa-star"></i>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -123,5 +131,5 @@ async function removeFavoriteStar(evt) {
 }
 
 
-$allStoriesList.on("click", ".far", addFavoriteStar);
-$allStoriesList.on("click", ".fas", removeFavoriteStar);
+$allStoriesList.on("click", ".far.fa-star", addFavoriteStar);
+$allStoriesList.on("click", ".fas.fa-star", removeFavoriteStar);
