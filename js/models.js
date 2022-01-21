@@ -226,7 +226,7 @@ class User {
   async addFavorite(story) {
     this.favorites.push(story);
 
-    let response = await axios.post(
+    const response = await axios.post(
       `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       {
         token: this.loginToken
@@ -234,13 +234,19 @@ class User {
     console.log("response", response);
   }
 
+  /** removeFavorite takes in a story to remove from the user's 
+   * favorite list. 
+   * It removes a story from the currentUser favorites array, 
+   * removes the story from the database User {favoritesArray} 
+
+   */
 
   async removeFavorite(removeStory) {
     this.favorites = this.favorites.filter((story) => {
       return (story.storyId !== removeStory.storyId);
     });
 
-    let response = await axios.delete(
+    const response = await axios.delete(
       `${BASE_URL}/users/${this.username}/favorites/${removeStory.storyId}`,
       {
         data: {
@@ -250,4 +256,5 @@ class User {
 
     console.log("response", response);
   }
+
 }

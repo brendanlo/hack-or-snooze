@@ -16,14 +16,14 @@ $body.on("click", "#nav-all", navAllStories);
 
 /** Show login/signup on click on "login" */
 
-function navLoginClick(evt) {
+function navFavoritesClick(evt) {
   console.debug("navLoginClick", evt);
   hidePageComponents();
   $loginForm.show();
   $signupForm.show();
 }
 
-$navLogin.on("click", navLoginClick);
+$navLogin.on("click", navFavoritesClick);
 
 /** When a user first logins in, update the navbar to reflect that. */
 
@@ -43,3 +43,13 @@ function navSubmitClick(evt) {
 }
 
 $navSubmit.on("click", navSubmitClick);
+
+/** Show favorites page when clicking on "favorites" */
+
+function navFavoritesClick(evt) {
+  console.debug("navFavoritesClick", evt);
+  hidePageComponents();
+  $navFavorites.show();
+}
+
+$navLogin.on("click", navFavoritesClick);

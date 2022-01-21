@@ -9,7 +9,7 @@ async function getAndShowStoriesOnStart() {
   storyList = await StoryList.getStories();
   $storiesLoadingMsg.remove();
 
-  putStoriesOnPage();
+  putStoriesOnPage(storyList.stories);
 }
 
 /**
@@ -37,13 +37,13 @@ function generateStoryMarkup(story) {
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
-function putStoriesOnPage() {
+function putStoriesOnPage(stories) {
   console.debug("putStoriesOnPage");
 
   $allStoriesList.empty();
 
   // loop through all of our stories and generate HTML for them
-  for (let story of storyList.stories) {
+  for (let story of stories) {
     const $story = generateStoryMarkup(story);
     $allStoriesList.append($story);
   }
@@ -76,3 +76,15 @@ async function createStoryAndDisplay(evt) {
 }
 
 $submitStoryBtn.on("click", createStoryAndDisplay);
+
+
+
+/** Gets list of favorite stories from the current user instance,
+ *  generates their HTML, and puts on page. */
+
+function putFavoritesOnPage() {
+  console.debug("putFavoritesOnPage");
+  putStoriesOnPage(currentUser.favorites);
+}
+
+$navFavorites.on("click", putFavoritesOnPage);
