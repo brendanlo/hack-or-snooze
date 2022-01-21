@@ -218,7 +218,7 @@ class User {
     }
   }
 
-  /** takes in a story, 
+  /** takes in a Story instance, 
    * adds story to currentUser favorites array, 
    * adds story to database User {favoritesArray} 
    * */
@@ -238,14 +238,15 @@ class User {
     console.log("response", response);
   }
 
-  /** removeFavorite takes in a story to remove from the user's 
+  /** removeFavorite takes in a Story instance to remove from the user's 
    * favorite list. 
    * It removes a story from the currentUser favorites array, 
    * removes the story from the database User {favoritesArray} 
-
    */
 
   async removeFavorite(removeStory) {
+    console.log("in removeFavorite, this is removeStory: ", removeStory);
+    // returns currentUser favorites array without removeStory
     this.favorites = this.favorites.filter((story) => {
       return (story.storyId !== removeStory.storyId);
     });

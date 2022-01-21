@@ -20,15 +20,16 @@ async function getAndShowStoriesOnStart() {
  */
 
 function generateStoryMarkup(story) {
-  // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
-  const storyInFav = currentUser.favorites.find(favStory => {
-    favStory.storyId === story.storyId
+
+  //O(n) operation to edit star html if story in currentUser's favorites
+  const storyInFav = currentUser.favorites.filter((favStory) => {
+    return favStory.storyId === story.storyId
   });
   console.log('storyInFav= ', storyInFav);
 
-  const favoriteStatus = (storyInFav) ? "fas" : "far";
+  const favoriteStatus = (storyInFav.length === 0) ? "far" : "fas";
   console.log('story.title: ', story.title, ' favoriteStatus: ', favoriteStatus);
 
   return $(`
@@ -98,12 +99,19 @@ function putFavoritesOnPage() {
 
 $navFavorites.on("click", putFavoritesOnPage);
 
+/**
+ * upon clicking hollow (unfavorited) star, 
+ * finds matching Story instance from storyList,
+ * add Story instance to currentUser's favorites array,
+ * toggles star html
+ */
 async function addFavoriteStar(evt) {
   const $star = $(evt.target);
-  const storyId = $star.closest("li").attr("id");
+  const starStoryId = $star.closest("li").attr("id");
 
+  // finds Story instance from storyList with star's storyId 
   const favoriteStoryArr = storyList.stories.filter((story) => {
-    return (story.storyId === storyId);
+    return (story.storyId === starStoryId);
   });
 
   console.log("favoriteStory: ", favoriteStoryArr);
@@ -114,17 +122,32 @@ async function addFavoriteStar(evt) {
   $star.removeClass("far") //turns off hollow star
 }
 
+/**
+ * upon clicking solid (favorited) star, 
+ * finds matching Story instance from storyList,
+ * removes Story instance from currentUser's favorites array,
+ * toggles star html
+ */
+
 async function removeFavoriteStar(evt) {
   const $star = $(evt.target);
   const storyId = $star.closest("li").attr("id");
+  console.log("storyId: ", storyId);
 
-  const unfavoriteStoryArr = storyList.stories.filter((story) => {
-    return (story.storyId === storyId);
-  });
+  // finds Story instance from storyList with star's storyId
+  // const unfavoriteStoryArr = storyList.stories.filter((story) => {
+  //   console.log("story.storyId: ", story.storyId);
 
-  console.log("favoriteStory: ", unfavoriteStoryArr);
+  //   return (story.storyId === storyId);
+  // });
 
-  await currentUser.removeFavorite(unfavoriteStoryArr[0]);
+  const response = await axios.get(`${BASE_URL}/stories/${storyId}`);
+  console.log("response:", response);
+
+
+  // console.log("favoriteStory: ", unfavoriteStoryArr);
+  await currentUser.removeFavorite(response.data);
+  // await currentUser.removeFavorite(unfavoriteStoryArr[0]);
 
   $star.addClass("far");  //turns on hollow star
   $star.removeClass("fas") //turns off solid star
