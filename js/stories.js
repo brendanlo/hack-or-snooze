@@ -90,19 +90,38 @@ function putFavoritesOnPage() {
 
 $navFavorites.on("click", putFavoritesOnPage);
 
-async function favoriteStar(evt) {
-  console.log("entering favStar ftn");
+async function addFavoriteStar(evt) {
   const $star = $(evt.target);
   const storyId = $star.closest("li").attr("id");
+
   const favoriteStoryArr = storyList.stories.filter((story) => {
     return (story.storyId === storyId);
   });
-  console.log("$star: ", $star);
-  console.log("storyId: ", storyId);
+
   console.log("favoriteStory: ", favoriteStoryArr);
 
   await currentUser.addFavorite(favoriteStoryArr[0]);
 
+  $star.addClass("fas");  //turns on solid star
+  $star.removeClass("far") //turns off hollow star
 }
 
-$allStoriesList.on("click", ".fa-star", favoriteStar);
+async function removeFavoriteStar(evt) {
+  const $star = $(evt.target);
+  const storyId = $star.closest("li").attr("id");
+
+  const unfavoriteStoryArr = storyList.stories.filter((story) => {
+    return (story.storyId === storyId);
+  });
+
+  console.log("favoriteStory: ", unfavoriteStoryArr);
+
+  await currentUser.removeFavorite(unfavoriteStoryArr[0]);
+
+  $star.addClass("far");  //turns on hollow star
+  $star.removeClass("fas") //turns off solid star
+}
+
+
+$allStoriesList.on("click", ".far", addFavoriteStar);
+$allStoriesList.on("click", ".fas", removeFavoriteStar);
