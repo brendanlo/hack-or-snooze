@@ -25,9 +25,7 @@ function generateStoryMarkup(story) {
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
-        <button class="star-btn">
-          <i class="far fa-star"></i>
-        </button>
+        <i class="far fa-star"></i>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -92,17 +90,19 @@ function putFavoritesOnPage() {
 
 $navFavorites.on("click", putFavoritesOnPage);
 
-function favoriteStar(evt) {
+async function favoriteStar(evt) {
   console.log("entering favStar ftn");
   const $star = $(evt.target);
   const storyId = $star.closest("li").attr("id");
-  const favoriteStory = storyList.stories.filter((story) => {
+  const favoriteStoryArr = storyList.stories.filter((story) => {
     return (story.storyId === storyId);
   });
-  addFavorite(favoriteStory);
   console.log("$star: ", $star);
   console.log("storyId: ", storyId);
-  console.log("favoriteStory: ", favoriteStory);
+  console.log("favoriteStory: ", favoriteStoryArr);
+
+  await currentUser.addFavorite(favoriteStoryArr[0]);
+
 }
 
-$(".star-btn").on("click", favoriteStar);
+$allStoriesList.on("click", ".fa-star", favoriteStar);

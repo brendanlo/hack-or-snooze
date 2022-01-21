@@ -225,6 +225,10 @@ class User {
 
   async addFavorite(story) {
     this.favorites.push(story);
+    console.log("entered addFavorite, story = ", story);
+    console.log("storyId = ", story.storyId);
+
+
 
     const response = await axios.post(
       `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
