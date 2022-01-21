@@ -222,7 +222,7 @@ class User {
    * adds story to currentUser favorites array, 
    * adds story to database User {favoritesArray} 
    * */
-
+  /**TODO: try AJAX call before changing front-end upon successful backend addition*/
   async addFavorite(story) {
     this.favorites.push(story);
     console.log("entered addFavorite, story = ", story);
@@ -243,13 +243,15 @@ class User {
    * It removes a story from the currentUser favorites array, 
    * removes the story from the database User {favoritesArray} 
    */
-
-  async removeFavorite(removeStory) {
+  /**TODO: parameter === story, make sure to change all variables to story */
+  /**TODO: try AJAX call before changing front-end upon successful backend deletion */
+  /** TODO: refer to "database" as making an update to API */
+  async removeFavorite(story) {
     console.log("in removeFavorite, this is removeStory: ", removeStory);
 
     // returns currentUser favorites array without removeStory
-    this.favorites = this.favorites.filter((story) => {
-      return (story.storyId !== removeStory.storyId);
+    this.favorites = this.favorites.filter((s) => {
+      return (s.storyId !== story.storyId);
     });
 
     //delete Story instance from database

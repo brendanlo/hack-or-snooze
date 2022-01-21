@@ -23,6 +23,7 @@ function generateStoryMarkup(story) {
 
   const hostName = story.getHostName();
 
+  //TODO: make sure we are logged in before addin the star feature, can make a helper function
   //O(n) operation to edit star html if story in currentUser's favorites
   const storyInFav = currentUser.favorites.filter((favStory) => {
     return favStory.storyId === story.storyId
@@ -109,6 +110,7 @@ async function addFavoriteStar(evt) {
   const $star = $(evt.target);
   const starStoryId = $star.closest("li").attr("id");
 
+  //TODO: try .find() instead of .filter()
   // finds Story instance from storyList with star's storyId 
   const favoriteStoryArr = storyList.stories.filter((story) => {
     return (story.storyId === starStoryId);
@@ -134,6 +136,7 @@ async function removeFavoriteStar(evt) {
   const storyId = $star.closest("li").attr("id");
   console.log("storyId: ", storyId);
 
+  //TODO: avoid using logic in UI function; make static getStory() in logic file
   const response = await axios.get(`${BASE_URL}/stories/${storyId}`);
   const story = response.data.story;
 
