@@ -36,6 +36,7 @@ function updateNavOnLogin() {
 }
 
 /** Show the submit story form when the user clicks on "submit" in the navbar */
+
 function navSubmitClick(evt) {
   console.debug("navSubmitClick", evt);
   $submitStoryForm.show();

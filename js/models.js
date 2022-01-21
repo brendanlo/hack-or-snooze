@@ -81,9 +81,9 @@ class StoryList {
     });
 
     console.log("storyResponse: ", storyResponse);
-
     const story = storyResponse.data.story;
     console.log("story: ", story);
+
     return new Story({
       storyId: story.storyId,
       title: story.title,
@@ -93,7 +93,6 @@ class StoryList {
       createdAt: story.createdAt
     });
 
-    // NOTE check about whether we need to pass the story instance into a storylist. Maybe we pull this from some storyList function call to the /stories endpoint
   }
 }
 

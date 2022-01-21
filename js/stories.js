@@ -51,6 +51,10 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
+/** collects the input values from the story-form, then creates a new Story, 
+ * adds that story instance to the storyList array, then updates the page to 
+ * include the new story. redhides the submit story form
+ */
 
 async function getStoryDataAndDisplay(evt) {
   evt.preventDefault();
@@ -61,10 +65,13 @@ async function getStoryDataAndDisplay(evt) {
     url: $("#story-url").val()
   };
 
+  // NOTE we are working on URL form validation if time
   // let link = new URL(storyFormVals.url);
   // storyFormVals.url = (link.protocol) ? storyFormVals.url : `http://${storyFormVals.url}`;
 
-  storyList.stories.unshift(await storyList.addStory(currentUser, storyFormVals));
+  const newStory = await storyList.addStory(currentUser, storyFormVals);
+  storyList.stories.unshift(newStory);
+
   putStoriesOnPage();
   $submitStoryForm.hide();
 }
