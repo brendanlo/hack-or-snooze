@@ -241,19 +241,23 @@ class User {
    * adds story to database User {favoritesArray} 
    * */
 
-  async addFavorite(story) {
+  async addFavorite(storyId) {
 
     //add Story instance to database
     const response = await axios.post(
-      `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      `${BASE_URL}/users/${this.username}/favorites/${storyId}`,
       {
         token: this.loginToken
       });
     console.log("response", response);
 
-    this.favorites.push(story);
-    console.log("entered addFavorite, story = ", story);
-    console.log("storyId = ", story.storyId);
+    // finds Story instance from storyList with star's storyId 
+    const favoriteStory = storyList.stories.find((story) => {
+      return (story.storyId === storyId);
+    });
+
+    this.favorites.push(favoriteStory);
+    // console.log("storyId = ", story.storyId);
   }
 
   /** removeFavorite takes in a Story instance to remove from the user's 
@@ -262,12 +266,11 @@ class User {
    * removes the story from the database User {favoritesArray} 
    */
 
-  async removeFavorite(story) {
-    console.log("in removeFavorite, this is story: ", story);
+  async removeFavorite(storyId) {
 
     //delete Story instance from database
     const response = await axios.delete(
-      `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      `${BASE_URL}/users/${this.username}/favorites/${storyId}`,
       {
         data: {
           token: this.loginToken
@@ -278,8 +281,10 @@ class User {
 
     // returns currentUser favorites array without removeStory
     this.favorites = this.favorites.filter((s) => {
-      return (s.storyId !== story.storyId);
+      return (s.storyId !== storyId);
     });
   }
+
+
 
 }

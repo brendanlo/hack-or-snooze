@@ -118,16 +118,9 @@ $navFavorites.on("click", putFavoritesOnPage);
  */
 async function addFavoriteStar(evt) {
   const $star = $(evt.target);
-  const starStoryId = $star.closest("li").attr("id");
+  const storyId = $star.closest("li").attr("id");
 
-  // finds Story instance from storyList with star's storyId 
-  const favoriteStory = storyList.stories.find((story) => {
-    return (story.storyId === starStoryId);
-  });
-
-  console.log("favoriteStory: ", favoriteStory);
-
-  await currentUser.addFavorite(favoriteStory);
+  currentUser.addFavorite(storyId);
 
   $star.addClass("fas");  //turns on solid star
   $star.removeClass("far") //turns off hollow star
@@ -143,11 +136,8 @@ async function addFavoriteStar(evt) {
 async function removeFavoriteStar(evt) {
   const $star = $(evt.target);
   const storyId = $star.closest("li").attr("id");
-  console.log("storyId: ", storyId);
 
-  //TODO: avoid using logic in UI function; make static getStory() in logic file
-  const story = StoryList.getStory(storyId);
-  await currentUser.removeFavorite(story);
+  currentUser.removeFavorite(storyId);
 
   $star.addClass("far");  //turns on hollow star
   $star.removeClass("fas") //turns off solid star
