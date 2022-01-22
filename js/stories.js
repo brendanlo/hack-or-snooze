@@ -12,6 +12,12 @@ async function getAndShowStoriesOnStart() {
   putStoriesOnPage(storyList.stories);
 }
 
+/** showStars checks if a user is logged in. If so, then it will show favorited
+ * stories as a solid star and non-favorited as hollow.
+ * If the user is not logged in, no stars will show up in the DOM.
+ * this is a helper function for generateStoryMarkup
+*/
+
 function showStars(story) {
   if (currentUser) {
     //find out whether Story instance is also in currentUser [favorites]
@@ -38,18 +44,6 @@ function showStars(story) {
 function generateStoryMarkup(story) {
 
   const hostName = story.getHostName();
-
-  //TODO: make sure we are logged in before addin the star feature, can make a helper function
-  //O(n) operation to edit star html if story in currentUser's favorites
-  // if(currentUser) {
-  //   const storyInFav = currentUser.favorites.filter((favStory) => {
-  //     return favStory.storyId === story.storyId
-  //   });
-  //   console.log('storyInFav= ', storyInFav);
-
-  //   const favoriteStatus = (storyInFav.length === 0) ? "far" : "fas";
-  //   console.log('story.title: ', story.title, ' favoriteStatus: ', favoriteStatus);
-  // }
 
   return $(`
       <li id="${story.storyId}">
@@ -97,7 +91,9 @@ async function createStoryAndDisplay(evt) {
   const newStory = await storyList.addStory(currentUser, storyFormVals);
   $allStoriesList.prepend(generateStoryMarkup(newStory));
 
+  $submitStoryForm.trigger("reset");
   $submitStoryForm.hide();
+
 }
 
 $submitStoryBtn.on("click", createStoryAndDisplay);

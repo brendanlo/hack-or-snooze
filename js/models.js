@@ -106,6 +106,7 @@ class StoryList {
    */
 
   static async getStory(storyId) {
+    console.log("in getStory, storyId = ", storyId);
     try {
       const response = await axios.get(`${BASE_URL}/stories/${storyId}`);
       return response.data.story;
